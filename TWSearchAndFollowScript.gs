@@ -188,6 +188,15 @@ Twitter.search = function(data, num) {
   return this.api("search/tweets", data);
 };
 
+// ユーザー検索
+Twitter.user_search = function(data, num, page) {
+  if ("string" === typeof data) {
+    data = {q: data, count: num, page: page};
+  }
+
+  return this.api("users/search", data);
+};
+
 // 自分のタイムライン取得
 Twitter.tl = function(since_id) {
   var data = null;
@@ -295,7 +304,7 @@ Twitter.follow = function(userId) {
 };
 
 function exec(){
-  var result = Twitter.search("ダンス部 OR ダンスサークル", 10)
+  var result = Twitter.search("ダンス部 OR ダンスサークル", 100)
   for (var i=0; i < result.statuses.length; i++) {
     if(result.statuses[i].is_quote_status == false && result.statuses[i].in_reply_to_screen_name == null ) { 
       if(result.statuses[i].text.match(/^RT/)) {
@@ -306,6 +315,18 @@ function exec(){
       if(result.statuses[i].user.following == false && result.statuses[i].user.follow_request_sent == false) {
         Logger.log("id:" + result.statuses[i].user.screen_name)
         Twitter.follow(result.statuses[i].user.id_str)
+      }
+    }
+  }
+}
+
+function user_search_exec(){
+  for (var page=41; page <= 100; page++) {
+    var result = Twitter.user_search("ダンス部", 100, page)
+    for (var i=0; i < result.length; i++) {
+      if(result[i].following == false && result[i].follow_request_sent == false) {
+          Logger.log("id:" + result[i].screen_name)
+          Twitter.follow(result[i].id_str)
       }
     }
   }
