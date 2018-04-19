@@ -304,7 +304,7 @@ Twitter.follow = function(userId) {
 };
 
 function exec(){
-  var result = Twitter.search("ダンス部 OR ダンスサークル", 100)
+  var result = Twitter.search("ダンス部 OR ダンスサークル",20)
   for (var i=0; i < result.statuses.length; i++) {
     if(result.statuses[i].is_quote_status == false && result.statuses[i].in_reply_to_screen_name == null ) { 
       if(result.statuses[i].text.match(/^RT/)) {
@@ -321,7 +321,7 @@ function exec(){
 }
 
 function user_search_exec(){
-  for (var page=41; page <= 100; page++) {
+  for (var page=41; page <= 52; page++) {
     var result = Twitter.user_search("ダンス部", 100, page)
     for (var i=0; i < result.length; i++) {
       if(result[i].following == false && result[i].follow_request_sent == false) {
