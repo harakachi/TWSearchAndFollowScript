@@ -303,6 +303,7 @@ Twitter.follow = function(userId) {
   return this.api("friendships/create",data);
 };
 
+//投稿内容の検索
 function exec(){
   var result = Twitter.search("ダンス部 OR ダンスサークル",20)
   for (var i=0; i < result.statuses.length; i++) {
@@ -320,6 +321,7 @@ function exec(){
   }
 }
 
+//ユーザ名、プロフィール検索
 function user_search_exec(){
   for (var page=41; page <= 52; page++) {
     var result = Twitter.user_search("ダンス部", 100, page)
